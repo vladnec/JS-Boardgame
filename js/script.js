@@ -14,7 +14,7 @@ function startGame() {
             return
         }
         // get original position and desired position
-        let activePlayer = getActivePlayer(player1, player2)
+        let activePlayer = getActivePlayer()
         let fromTile = Number(activePlayer.position)
         let toTile = Number($ev.currentTarget.getAttribute("data-number"));
 
@@ -37,10 +37,10 @@ function startGame() {
                     if (currentTile.hasClass("disabled") || currentTile.hasClass("player1") || currentTile.hasClass("player2")) {
                         return;
                     }
-                    checkAndEquipWeapon(currentTile, activePlayer)
+                    board.checkAndEquipWeapon(currentTile, activePlayer)
                 }
                 activePlayer.move($ev.currentTarget);
-                checkAndStartBattle(player1, player2, board)
+                board.checkAndStartBattle(player1, player2, board)
                 board.setActivePlayer(player1, player2);
                 // player moves left
             } else if (direction === "descending") {
@@ -49,10 +49,10 @@ function startGame() {
                     if (currentTile.hasClass("disabled") || currentTile.hasClass("player1") || currentTile.hasClass("player2")) {
                         return;
                     }
-                    checkAndEquipWeapon(currentTile, activePlayer)
+                    board.checkAndEquipWeapon(currentTile, activePlayer)
                 }
                 activePlayer.move($ev.currentTarget);
-                checkAndStartBattle(player1, player2, board)
+                board.checkAndStartBattle(player1, player2, board)
                 board.setActivePlayer(player1, player2);
             }
             // check if player moves on Y AXIS
@@ -64,11 +64,11 @@ function startGame() {
                     if (currentTile.hasClass("disabled") || currentTile.hasClass("player1") || currentTile.hasClass("player2")) {
                         return;
                     }
-                    checkAndEquipWeapon(currentTile, activePlayer)
+                    board.checkAndEquipWeapon(currentTile, activePlayer)
                 }
 
                 activePlayer.move($ev.currentTarget);
-                checkAndStartBattle(player1, player2, board)
+                board.checkAndStartBattle(player1, player2, board)
                 board.setActivePlayer(player1, player2);
                 // player moves top
             } else if (direction === "descending") {
@@ -77,74 +77,39 @@ function startGame() {
                     if (currentTile.hasClass("disabled") || currentTile.hasClass("player1") || currentTile.hasClass("player2")) {
                         return;
                     }
-                    checkAndEquipWeapon(currentTile, activePlayer)
+                    board.checkAndEquipWeapon(currentTile, activePlayer)
                 }
                 activePlayer.move($ev.currentTarget);
-                checkAndStartBattle(player1, player2, board)
+                board.checkAndStartBattle(player1, player2, board)
                 board.setActivePlayer(player1, player2);
             }
         } else {
-           return;
+            return;
         }
     })
     window.attack = function (type) {
             board.attack(type, player1, player2);
-    },
-    window.defend = function (type) {
-        board.defend(type, player1, player2);
-    },
-    window.updatePlayerInfo = function () {
-        let pl1Health = player1.health;
-        let pl2Health = player2.health;
-        $("#playerOneHealth").text(player1.health + "%")
-        $("#playerTwoHealth").text(player2.health + "%")
-        let activePlayerNumber = getActivePlayer(player1, player2).playerNumber
-        $("#activePlayer").text("Player " + activePlayerNumber + " is Active")
-    }
-
-}
-
-function getActivePlayer(player1, player2) {
-    if (player1.isActive) {
-        return player1
-    } else {
-        return player2
-    }
-}
-
-function checkAndEquipWeapon(currentTile, activePlayer) {
-    if (currentTile.hasClass("weapon")) {
-        currentTile.removeClass("weapon")
-        let weaponType = currentTile.attr("class")
-        weapons.forEach(function (wp) {
-            if (wp.type === weaponType) {
-                activePlayer.equipWeapon(wp)
-                let weaponTextContainer = $("span[id='" + "player" + activePlayer.playerNumber + "Weapon" + "']");
-                let weaponDamage = Number(wp.damage) + 5
-                let weaponText = "Weapon: " + wp.type + " - Damage: " + weaponDamage
-                weaponTextContainer.text(weaponText)
+        },
+        window.defend = function (type) {
+            board.defend(type, player1, player2);
+        },
+        window.updatePlayerInfo = function () {
+            let pl1Health = player1.health;
+            let pl2Health = player2.health;
+            $("#playerOneHealth").text(player1.health + "%")
+            $("#playerTwoHealth").text(player2.health + "%")
+            let activePlayerNumber = getActivePlayer().playerNumber
+            $("#activePlayer").text("Player " + activePlayerNumber + " is Active")
+        },
+        window.getActivePlayer = function () {
+            if (player1.isActive) {
+                return player1
+            } else {
+                return player2
             }
-        })
-        currentTile.removeClass(weaponType)
-    }
-}
-
-function checkAndStartBattle(player1, player2, board) {
-    let absDiff = Math.abs(player1.position - player2.position)
-    if (absDiff === 1 || absDiff % 10 === 0 && absDiff <= 10) {
-        startBattle(board)
-    }
-}
-
-
-function startBattle(board) {
-    $("#infor").css("display", "block");
-    $("#infor").delay(3000).fadeOut("slow");
-    board.battle = true;
-
-}
-
-function gameOver(losingPlayer) {
-    $("#gameover").css("display","block");
-    $("#gameover").append( "<span>Game Over, Player </span>" + losingPlayer.playerNumber + " <span> Lost</span>")
+        },
+        window.gameOver = function (losingPlayer) {
+            $("#gameover").css("display", "block");
+            $("#gameover").append("<span>Game Over, Player </span>" + losingPlayer.playerNumber + " <span> Lost</span>")
+        }
 }

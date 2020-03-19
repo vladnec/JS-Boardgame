@@ -8,7 +8,6 @@ function Player(name, health, isActive, playerNumber) {
 Player.prototype = {
     constructor: Player,
     move: function (target) {
-
         let nextPosition = target.getAttribute("data-number");
         let currentPositionElement = $('td[data-number="' + this.position + '"]');
         this.position = nextPosition;
