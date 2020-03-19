@@ -1,11 +1,6 @@
-function Cell(height,width,) {
-    this.height = height;
-    this.width = width;
+function Cell(disabled) {
+    this.disabled = disabled
 }
 Cell.prototype = {
     constructor: Cell,
-    isDisabled: function(el){
-      return el.hasClass("disabled")
-    },
-
 }

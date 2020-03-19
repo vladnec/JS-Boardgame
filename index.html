@@ -2,24 +2,53 @@
 <html>
 <head>
     <meta charset="UTF-8">
-	<title>Turn-based javascript</title>
+    <title>Turn-based javascript</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
     <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
 
 <body>
-<input id="player1Name"/>
-<input id="player2Name"/>
-<div id="app"></div>
-<button onClick="startGame()">New Game</button>
-    
-<!--  jquery-->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="  crossorigin="anonymous"></script>  
-<!--custom js-->
+    <div class="container-fluid">
+        <div class="row">
+            <button onclick="startGame()" class="btn btn-info mx-auto mb-2">New Game</button>
+        </div>
+        <div class="row">
+            <p class="d-block mx-auto" id="activePlayer"></p>
+        </div>
+        <div class="row">
+            <div class="col-2 offset-1">
+                <label for="text">Player One:</label>
+                <input type="input" class="form-control" id="player1Name" placeholder="player one" name="player 1" value="Player1">
+                <p><span class=" intro"></span>Health:<b><span id="playerOneHealth"></span></b></p>
+                <p><span id="player1Weapon"></span></p>
+                <button class="btn btn-danger btn-lg" onclick='attack(1)'>Attack</button>
+                <button class="btn btn-success btn-lg" onclick='defend(1)'>Defend</button>
+            </div>
+            <div class="col-6">		
+                <div id="infor" class="bg-danger p-1"><p>Battle begins</p></div>
+				<div id="gameover" class="bg-success"></div>
+                <div id="app" class="d-block mx-auto"></div>
+            </div>
+            <div class="col-2">
+                <label for="text">Player Two:</label>
+                <input type="input" class="form-control" id="player2Name" placeholder="player two" name="player 2" value="Player2">
+                <p><span class=" intro"></span>Health:<b><span id="playerTwoHealth"></span></b></p>
+                <p><span id="player2Weapon"></span></p>
+                <button class="btn btn-danger btn-lg" onclick='attack(2)'>Attack</button>
+                <button class="btn btn-success btn-lg" onclick='defend(2)'>Defend</button>
+            </div>
+        </div>
 
-<script src="js/weapon.js"></script>
-<script src="js/player.js"></script>
-<script src="js/cell.js"></script>
-<script src="js/boards.js"></script>
-<script src="js/script.js"></script>
-</body>
-</html>
+    </div>
+
+
+    <!--  jquery-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!--custom js-->
+
+    <script src="js/weapon.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/boards.js"></script>
+    <script src="js/script.js"></script>
+</body></html>
